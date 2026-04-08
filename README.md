@@ -29,3 +29,10 @@ Before running NovaChat, you must have the Tor service installed and running on 
 3. Install the required Python dependencies:
    ```bash
    pip install -r requirements.txt
+
+
+   ⚠️ Disclaimer:
+
+This project is intended for educational and research purposes only.
+
+The author is not responsible for any misuse of this software, including but not limited to illegal activities, unauthorized access, or privacy violations.
