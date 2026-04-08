@@ -11,13 +11,18 @@ NovaChat is a decentralized, high-performance chat platform designed for absolut
 ### Web UI
 <img width="1920" height="1009" alt="image" src="https://github.com/user-attachments/assets/86e9308d-bd64-410c-926e-caaa099f074e" />
 
+##
+
 <img width="1920" height="1009" alt="image" src="https://github.com/user-attachments/assets/fb9ffdf8-53c4-40f4-8d34-8c40d28150a2" />
 
+##
 
-
-
+<img width="1920" height="1009" alt="image" src="https://github.com/user-attachments/assets/cf5d1a81-2772-4866-a107-c268a99c6b3a" />
 
 ### CLI Client
+
+<img width="1919" height="961" alt="Screenshot From 2026-04-09 01-47-37" src="https://github.com/user-attachments/assets/255ea4b2-35ca-4f67-b200-1a11bbc9f52d" />
+
 
 ---
 
@@ -33,11 +38,9 @@ NovaChat is a decentralized, high-performance chat platform designed for absolut
 
 ## 🧅 How to Get Your `.onion` Hostname
 
-To allow others to connect to your NovaChat server over Tor, you need to create a Tor Hidden Service. This will generate your unique `.onion` address.
+To allow others to connect to your NovaChat server over Tor, you need to create a Tor Hidden Service.
 
 ### Step 1 — Edit Tor Configuration
-
-Open your Tor configuration file:
 
 * Linux:
 
@@ -48,14 +51,12 @@ sudo nano /etc/tor/torrc
 * Windows/macOS (Tor Browser):
   Locate `torrc` inside the Tor installation directory.
 
-Add the following lines:
+Add:
 
 ```
 HiddenServiceDir /var/lib/tor/novachat_service/
 HiddenServicePort 9999 127.0.0.1:9999
 ```
-
-> Make sure the port (`9999`) matches your NovaChat server.
 
 ---
 
@@ -67,84 +68,82 @@ sudo systemctl restart tor
 
 ---
 
-### Step 3 — Get Your Onion Address
-
-After restarting Tor, your hostname will be generated automatically.
-
-Find it here:
+### Step 3 — Get Onion Address
 
 ```bash
 sudo cat /var/lib/tor/novachat_service/hostname
 ```
 
-Example output:
-
-```
-abc123xyz456.onion
-```
-
-This is your **server address** — share it with clients so they can connect.
-
 ---
 
-### Step 4 — Run NovaChat Server
-
-Start your server normally:
+### Step 4 — Run Server
 
 ```bash
 python server.py
 ```
 
-Clients should now connect using your `.onion` address instead of `127.0.0.1`.
-
----
-
-## 🧠 Basis of Technology
-
-NovaChat operates on a custom-built, highly secure architecture:
-
-* **The Network Layer (Tor & PySocks):**
-  Uses SOCKS5 to route TCP socket connections directly through the Tor network to a `.onion` Hidden Service.
-
-* **End-to-End Encryption (AES-GCM):**
-  Every message and file is encrypted client-side using AES-GCM (256-bit keys derived via PBKDF2HMAC-SHA256).
-  The server acts purely as a **blind router** and never sees plaintext data.
-
-* **TCP Stream Optimization:**
-  Uses chunked `bytearray` streaming to handle large media (up to 8MB) efficiently without memory overflow.
-
-* **Nova Engine (Steganography & Payloads):**
-
-  * **ZWC Camouflage:** Hide encrypted text invisibly inside normal text using zero-width Unicode characters.
-  * **Payload Packer:** Convert encrypted binary files into Base64 blocks for easy sharing across platforms.
-
 ---
 
 ## ⚙️ Prerequisites
 
-Before running NovaChat:
-
-### 1. Install Tor
-
-#### Linux
+### 🐧 Linux
 
 ```bash
 sudo apt install tor
 sudo systemctl start tor
 ```
 
-#### Windows / macOS
+---
 
-* Install **Tor Browser** OR **Tor Expert Bundle**
-* Keep Tor running in the background
+### 🪟 Windows 10 / 11 (IMPORTANT)
 
-> Default Tor SOCKS port: `9050`
+#### 1. Install Tor Browser
+
+* Download and install **Tor Browser**
+* Open it once and keep it running
+
+👉 Windows uses **SOCKS5 port `9150` (NOT 9050)**
 
 ---
 
-### 2. Install Python
+#### 2. Install Python (3.8+)
 
-* Python **3.8+ required**
+Download from: https://www.python.org/
+
+✔ Make sure:
+
+* "Add Python to PATH" is checked
+
+---
+
+#### 3. Install Required Modules
+
+Run in Command Prompt / PowerShell:
+
+```bash
+py -m pip install flask==3.0.3 flask-socketio==5.3.6 pysocks==1.7.1 cryptography==42.0.5
+```
+
+---
+
+#### 4. Important Fix (Tor Port)
+
+Edit these files:
+
+* `client.py`
+* `web_client.py`
+
+Change:
+
+```python
+("127.0.0.1", 9050)
+```
+
+👉 TO:
+
+```python
+("127.0.0.1", 9150)
+```
 
 ---
 
@@ -160,42 +159,29 @@ pip install -r requirements.txt
 
 ## 🚀 How to Use NovaChat
 
-### 🔹 Step 1 — Start the Server
+### 🔹 Step 1 — Start Server
 
 ```bash
 python server.py
 ```
 
-* Set a **server password** when prompted
-* Server runs on:
-
-```
-127.0.0.1:9999
-```
-
 ---
 
-### 🔹 Step 2 — Connect Client (CLI)
+### 🔹 Step 2 — Start CLI Client
 
 ```bash
 python client.py
 ```
 
-Enter:
-
-* Onion address (or `127.0.0.1` for local testing)
-* Username
-* Password (same as server)
-
 ---
 
-### 🔹 Step 3 — (Optional) Start Web Client
+### 🔹 Step 3 — Start Web Client (Optional)
 
 ```bash
 python web_client.py
 ```
 
-Open browser:
+Open:
 
 ```
 http://127.0.0.1:5000
@@ -207,13 +193,9 @@ http://127.0.0.1:5000
 
 ### Public Chat
 
-Just type and send:
-
 ```
 Hello everyone
 ```
-
----
 
 ### Private Messaging
 
@@ -227,15 +209,11 @@ or
 /msg username Hello
 ```
 
----
-
-### View Online Users
+### Users List
 
 ```
 /users
 ```
-
----
 
 ### Send File
 
@@ -243,21 +221,11 @@ or
 /sendfile username path/to/file
 ```
 
-or send to all:
-
-```
-/sendfile all file.jpg
-```
-
----
-
 ### Download File
 
 ```
 /get filename
 ```
-
----
 
 ### Exit
 
@@ -272,94 +240,72 @@ or send to all:
 ### 🔐 End-to-End Encryption
 
 * AES-GCM encryption
-* Password-derived keys (PBKDF2)
+* PBKDF2 key derivation
 * Server cannot read messages
-
----
 
 ### 🧅 Tor-Based Anonymity
 
+* Hidden services
 * No IP exposure
-* No port forwarding
-* Hidden services supported
-
----
 
 ### 📁 Secure File Transfer
 
-* Files encrypted before leaving sender
-* Decrypted only on receiver side
-* Supports images, audio, video, documents
+* Encrypted before sending
+* Decrypted only by receiver
 
----
+### 🕵️ Steganography
 
-### 🕵️ Steganography (ZWC Camouflage)
-
-* Hide encrypted messages inside normal text
-* Invisible to human eye
-* Useful for covert communication
-
----
+* Invisible message hiding
 
 ### 📦 Payload System
 
-* Convert encrypted files into Base64 blocks
-* Share across platforms (email, chat, etc.)
-* Restore and decrypt anytime
-
----
+* Base64 encrypted file transport
 
 ### 🌐 Web Interface
 
-* Modern chat UI
-* File preview before sending
-* Upload progress tracking
-* Media playback inside chat
-
----
+* File preview
+* Upload progress
+* Media playback
 
 ### ⚡ Optimized Streaming
 
-* Handles large files via chunked transmission
+* Handles large files efficiently
 * Prevents memory overflow
-* Stable over Tor network
 
 ---
 
 ## 🧪 Security Notes
 
-* Encryption is strong but implementation is **custom**
-* No formal audit yet
-* Use at your own risk for sensitive data
+* Custom crypto implementation
+* No formal audit
+* Use cautiously
 
 ---
 
 ## 🛣️ Future Improvements
 
-* Key-based access control for files
+* Key-based file access
 * Self-destruct messages
-* Multi-device sync
-* Improved authentication system (JWT / UUID)
-* Mobile app support
+* JWT authentication
+* Mobile support
 
 ---
 
 ## 🤝 Contributing
 
 Contributions are welcome.
-Feel free to fork, improve, and submit pull requests.
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License.
+MIT License
 
 ---
 
 ## 🌌 Final Note
 
 NovaChat is not just a chat app —
-it’s a **secure communication engine** built for privacy-first interaction.
+it’s a **secure communication engine built for privacy-first interaction**.
 
 ---
