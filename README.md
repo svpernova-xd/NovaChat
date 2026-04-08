@@ -6,6 +6,21 @@ NovaChat is a decentralized, high-performance chat platform designed for absolut
 
 ---
 
+## 📸 Screenshots
+
+### Web UI
+<img width="1920" height="1009" alt="image" src="https://github.com/user-attachments/assets/86e9308d-bd64-410c-926e-caaa099f074e" />
+
+<img width="1920" height="1009" alt="image" src="https://github.com/user-attachments/assets/fb9ffdf8-53c4-40f4-8d34-8c40d28150a2" />
+
+
+
+
+
+### CLI Client
+
+---
+
 ## ⚠️ Disclaimer
 
 > This project is intended for **educational and research purposes only**.
@@ -13,6 +28,74 @@ NovaChat is a decentralized, high-performance chat platform designed for absolut
 * The author is **not responsible for misuse** of this software.
 * Do **not** use NovaChat for illegal activities, unauthorized access, or privacy violations.
 * While strong encryption is implemented, this project is **experimental** and has not undergone formal security audits.
+
+---
+
+## 🧅 How to Get Your `.onion` Hostname
+
+To allow others to connect to your NovaChat server over Tor, you need to create a Tor Hidden Service. This will generate your unique `.onion` address.
+
+### Step 1 — Edit Tor Configuration
+
+Open your Tor configuration file:
+
+* Linux:
+
+```bash
+sudo nano /etc/tor/torrc
+```
+
+* Windows/macOS (Tor Browser):
+  Locate `torrc` inside the Tor installation directory.
+
+Add the following lines:
+
+```
+HiddenServiceDir /var/lib/tor/novachat_service/
+HiddenServicePort 9999 127.0.0.1:9999
+```
+
+> Make sure the port (`9999`) matches your NovaChat server.
+
+---
+
+### Step 2 — Restart Tor
+
+```bash
+sudo systemctl restart tor
+```
+
+---
+
+### Step 3 — Get Your Onion Address
+
+After restarting Tor, your hostname will be generated automatically.
+
+Find it here:
+
+```bash
+sudo cat /var/lib/tor/novachat_service/hostname
+```
+
+Example output:
+
+```
+abc123xyz456.onion
+```
+
+This is your **server address** — share it with clients so they can connect.
+
+---
+
+### Step 4 — Run NovaChat Server
+
+Start your server normally:
+
+```bash
+python server.py
+```
+
+Clients should now connect using your `.onion` address instead of `127.0.0.1`.
 
 ---
 
